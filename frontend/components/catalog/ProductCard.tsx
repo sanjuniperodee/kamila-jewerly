@@ -23,6 +23,7 @@ export function ProductCard({ product }: ProductCardProps) {
               width={400}
               height={400}
               className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+              unoptimized
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">

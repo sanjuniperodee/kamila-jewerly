@@ -72,6 +72,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                   height={600}
                   className="object-contain w-full h-full"
                   priority
+                  unoptimized
                 />
               ) : (
                 <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -104,6 +105,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                       width={80}
                       height={80}
                       className="object-cover w-full h-full"
+                      unoptimized
                     />
                   </button>
                 ))}

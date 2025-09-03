@@ -181,6 +181,7 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
               alt={product.name}
               fill
               className="object-cover"
+              unoptimized
             />
             {product.is_new && (
               <span className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
@@ -197,7 +198,7 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
           <div className="flex-1 p-6">
             <div className="flex justify-between items-start mb-2">
               <h3 className="text-lg font-semibold text-gray-900 hover:text-primary-600 transition-colors">
-                <Link href={`/products/${product.id}`}>
+                <Link href={`/product/${product.slug}`}>
                   {product.name}
                 </Link>
               </h3>
@@ -249,6 +250,7 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
           alt={product.name}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-300"
+          unoptimized
         />
         
         {/* Badges */}
