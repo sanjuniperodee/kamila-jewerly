@@ -87,6 +87,14 @@ export function Footer() {
                   <p>Проспект Абая, 48</p>
                   <p>ТЦ &ldquo;ЖАННУР&rdquo;, 1 этаж</p>
                   <p className="text-xs text-gray-400 mt-1">Байконыр район, Z00P4K7</p>
+                  <a 
+                    href="https://2gis.kz/astana/geo/70000001100066806" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-xs text-lavender hover:text-lavender-light transition-colors mt-1 inline-block"
+                  >
+                  Посмотреть в 2GIS
+                  </a>
                 </div>
               </div>
               

@@ -96,7 +96,7 @@ export function ContactSection({ settings, faqs }: ContactSectionProps) {
                     </a>
                     
                     <a 
-                      href="https://2gis.kz/astana" 
+                      href="https://2gis.kz/astana/geo/70000001100066806" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="flex items-center justify-between p-4 bg-gray-800 hover:bg-gray-900 text-white rounded-xl transition-colors group"
@@ -105,7 +105,7 @@ export function ContactSection({ settings, faqs }: ContactSectionProps) {
                         <div className="w-6 h-6 bg-yellow-500 rounded flex items-center justify-center text-xs font-bold text-black">
                           2G
                         </div>
-                        <span className="font-medium">2GIS</span>
+                        <span className="font-medium">2GIS - Наш магазин</span>
                       </div>
                       <span className="text-gray-300 group-hover:translate-x-1 transition-transform">→</span>
                     </a>

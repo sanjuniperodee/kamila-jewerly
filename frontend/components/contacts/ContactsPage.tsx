@@ -38,25 +38,25 @@ export function ContactsPage() {
     {
       icon: MapPin,
       title: 'Адрес',
-      details: ['г. Алматы, ул. Абая 123', 'ТРЦ "Mega Park", 2 этаж'],
-      link: 'https://2gis.kz'
+      details: ['г. Астана, Проспект Абая, 48', 'ТЦ "ЖАННУР", 1 этаж', 'Байконыр район, Z00P4K7'],
+      link: 'https://2gis.kz/astana/geo/70000001100066806'
     },
     {
       icon: Phone,
       title: 'Телефон',
-      details: ['+7 (727) 123-45-67', '+7 (701) 234-56-78'],
-      link: 'tel:+77271234567'
+      details: ['+7 705 129 35 00'],
+      link: 'tel:+77051293500'
     },
     {
       icon: Mail,
       title: 'Email',
-      details: ['info@kamil-jewelry.com', 'orders@kamil-jewelry.com'],
-      link: 'mailto:info@kamil-jewelry.com'
+      details: ['kamil_jewelry@mail.ru'],
+      link: 'mailto:kamil_jewelry@mail.ru'
     },
     {
       icon: Clock,
       title: 'Режим работы',
-      details: ['Пн-Вс: 10:00 - 22:00', 'Без выходных'],
+      details: ['Ежедневно с 10:00 до 22:00', 'Без выходных'],
       link: null
     }
   ]
@@ -65,7 +65,7 @@ export function ContactsPage() {
     {
       icon: MessageCircle,
       name: 'WhatsApp',
-      link: 'https://wa.me/77012345678',
+      link: 'https://wa.me/77051293500',
       color: 'bg-green-500'
     },
     {
@@ -77,7 +77,7 @@ export function ContactsPage() {
     {
       icon: Navigation,
       name: '2GIS',
-      link: 'https://2gis.kz',
+      link: 'https://2gis.kz/astana/geo/70000001100066806',
       color: 'bg-blue-500'
     }
   ]
@@ -269,17 +269,18 @@ export function ContactsPage() {
                   <div className="text-center text-gray-500">
                     <MapPin className="h-12 w-12 mx-auto mb-2" />
                     <p>Карта будет здесь</p>
-                    <p className="text-sm">г. Алматы, ул. Абая 123</p>
+                    <p className="text-sm">г. Астана, Проспект Абая, 48</p>
+                    <p className="text-xs text-gray-500">ТЦ "ЖАННУР", 1 этаж</p>
                   </div>
                 </div>
                 <a
-                  href="https://2gis.kz"
+                  href="https://2gis.kz/astana/geo/70000001100066806"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors"
                 >
                   <Navigation className="h-5 w-5" />
-                  Открыть в 2GIS
+                  Открыть в 2GIS - Наш магазин
                 </a>
               </div>
 

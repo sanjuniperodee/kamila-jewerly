@@ -160,7 +160,8 @@ export default function RootLayout({
               },
               "sameAs": [
                 "https://instagram.com/kamil_jewelry",
-                "https://wa.me/77051293500"
+                "https://wa.me/77051293500",
+                "https://2gis.kz/astana/geo/70000001100066806"
               ],
               "openingHours": "Mo-Su 10:00-22:00",
               "priceRange": "$$"
