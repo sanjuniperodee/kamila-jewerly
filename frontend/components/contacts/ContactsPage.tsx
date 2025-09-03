@@ -270,7 +270,7 @@ export function ContactsPage() {
                     <MapPin className="h-12 w-12 mx-auto mb-2" />
                     <p>Карта будет здесь</p>
                     <p className="text-sm">г. Астана, Проспект Абая, 48</p>
-                    <p className="text-xs text-gray-500">ТЦ "ЖАННУР", 1 этаж</p>
+                    <p className="text-xs text-gray-500">ТЦ &ldquo;ЖАННУР&rdquo;, 1 этаж</p>
                   </div>
                 </div>
                 <a

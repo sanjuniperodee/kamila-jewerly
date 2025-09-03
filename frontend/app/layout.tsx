@@ -1,43 +1,17 @@
 import type { Metadata } from 'next'
-import { Inter, Playfair_Display, Montserrat, Cormorant_Garamond, Lora } from 'next/font/google'
+// Font imports removed for build compatibility - using CSS imports instead
 import './globals.css'
 import './font-override.css'
 import { Providers } from './providers'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 
-const inter = Inter({ 
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const playfair = Playfair_Display({ 
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-playfair',
-  display: 'swap',
-})
-
-const montserrat = Montserrat({ 
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-montserrat',
-  display: 'swap',
-  weight: ['400', '500', '600', '700'],
-})
-
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-cormorant',
-  display: 'swap',
-  weight: ['400', '500', '600', '700'],
-})
-
-const lora = Lora({
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-lora',
-  display: 'swap',
-  weight: ['400', '500', '600', '700'],
-})
+// Font variables removed for build compatibility - using CSS imports instead
+const inter = { variable: '' }
+const playfair = { variable: '' }
+const montserrat = { variable: '' }
+const cormorant = { variable: '' }
+const lora = { variable: '' }
 
 export const metadata: Metadata = {
   title: {
@@ -116,7 +90,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ru" className={`${inter.variable} ${playfair.variable} ${montserrat.variable} ${cormorant.variable} ${lora.variable}`}>
+    <html lang="ru">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
