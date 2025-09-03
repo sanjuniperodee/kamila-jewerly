@@ -11,6 +11,10 @@ RUN npm install
 # Копирование кода приложения
 COPY . .
 
+# Передача переменной окружения во время сборки
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 # Сборка приложения
 RUN npm run build
 

@@ -26,7 +26,10 @@ services:
 
   # Next.js Frontend
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8017}
     container_name: kamil_frontend
     restart: unless-stopped
     env_file:
