@@ -139,7 +139,31 @@ CORS_ALLOWED_ORIGINS = [
     "http://taxi.aktau-go.kz:3000",
 ]
 
+# Более гибкие CORS настройки
+CORS_ALLOW_ALL_ORIGINS = True  # Временно разрешаем все origins
 CORS_ALLOW_CREDENTIALS = True
+
+# Дополнительные настройки для отладки
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 
 # File upload settings
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
