@@ -1,5 +1,9 @@
 version: '3.3'
 
+# Load environment variables from .env file
+env_file:
+  - .env
+
 services:
   # Django Backend
   backend:
@@ -7,16 +11,16 @@ services:
     container_name: kamil_backend
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "${BACKEND_PORT:-8017}:8000"
     volumes:
       - ./backend:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     environment:
-      - DEBUG=0
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
-      - DJANGO_SECRET_KEY=your-secret-key-here-change-in-production
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/kamil_jewelry
+      - DEBUG=${DEBUG:-0}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-localhost 127.0.0.1 [::1]}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-your-secret-key-here-change-in-production}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@db:5432/kamil_jewelry}
     depends_on:
       - db
     networks:
@@ -28,13 +32,13 @@ services:
     container_name: kamil_frontend
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT:-3001}:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules
       - /app/.next
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_API_URL=http://localhost:8017
     depends_on:
       - backend
     networks:
@@ -48,11 +52,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=kamil_jewelry
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=${POSTGRES_DB:-kamil_jewelry}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5430}:5432"
     networks:
       - kamil_network
 
