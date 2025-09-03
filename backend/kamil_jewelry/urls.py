@@ -17,6 +17,8 @@ urlpatterns = [
     path('api/content/', include('content.urls')),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# Раздача медиа файлов (всегда)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Раздача статических файлов (всегда)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

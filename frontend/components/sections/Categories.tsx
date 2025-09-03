@@ -34,13 +34,19 @@ export function Categories({ categories, isLoading }: CategoriesProps) {
                         alt={category.name || 'Категория'}
                         className="w-full h-full object-cover"
                         onError={(e) => {
+                          console.error('Image failed to load:', category.image);
                           // Fallback к placeholder если изображение не загрузилось
                           const target = e.target as HTMLImageElement;
                           target.style.display = 'none';
                           target.nextElementSibling?.classList.remove('hidden');
                         }}
+                        onLoad={() => console.log('Image loaded successfully:', category.image)}
                       />
-                    ) : null}
+                    ) : (
+                      <div className="text-red-500 text-xs p-2">
+                        No image: {JSON.stringify(category.image)}
+                      </div>
+                    )}
                     
                     {/* Fallback placeholder */}
                     <div className={`w-full h-full bg-gray-200 flex items-center justify-center ${category.image ? 'hidden' : ''}`}>
