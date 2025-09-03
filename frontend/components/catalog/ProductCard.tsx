@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Product } from '@/lib/api'
+import { formatPrice } from '@/lib/utils'
 
 interface ProductCardProps {
   product: Product
@@ -93,11 +94,11 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Price */}
         <div className="flex items-center space-x-2 mb-4">
           <span className="text-xl font-bold text-gray-900">
-            {product.final_price} ₸
+            {formatPrice(product.final_price)} ₸
           </span>
           {hasDiscount && (
             <span className="text-sm text-gray-500 line-through">
-              {product.price} ₸
+              {formatPrice(product.price)} ₸
             </span>
           )}
         </div>

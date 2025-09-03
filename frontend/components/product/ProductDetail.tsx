@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Star, Heart, ShoppingCart, ArrowLeft, Share2 } from 'lucide-react'
 import { Product } from '@/lib/api'
 import Link from 'next/link'
+import { formatPrice } from '@/lib/utils'
 
 interface ProductDetailProps {
   product: Product
@@ -156,11 +157,11 @@ export function ProductDetail({ product }: ProductDetailProps) {
             <div className="space-y-2">
               <div className="flex items-center space-x-3">
                 <span className="text-3xl font-bold text-gray-900">
-                  {parseFloat(finalPrice).toLocaleString('ru')} ₸
+                  {Number(finalPrice).toLocaleString('ru-RU')} ₸
                 </span>
                 {hasDiscount && (
                   <span className="text-xl text-gray-500 line-through">
-                    {parseFloat(basePrice).toLocaleString('ru')} ₸
+                    {Number(basePrice).toLocaleString('ru-RU')} ₸
                   </span>
                 )}
                 {hasDiscount && (
@@ -171,7 +172,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </div>
               {hasDiscount && (
                 <p className="text-sm text-gray-600">
-                  Экономия: {parseFloat(product.discount_amount).toLocaleString('ru')} ₸
+                  Экономия: {Number(product.discount_amount).toLocaleString('ru-RU')} ₸
                 </p>
               )}
             </div>

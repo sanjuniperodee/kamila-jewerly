@@ -4,9 +4,9 @@ import { useState } from 'react'
 import { Search, Filter, Grid, List, Star, Heart, ShoppingCart } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { productApi, categoryApi, type Product, type Category } from '@/lib/api'
-import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { formatPrice } from '@/lib/utils'
 
 export function CatalogPage() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -82,7 +82,7 @@ export function CatalogPage() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lavender focus:border-lavender"
               >
                 <option value="">Все категории</option>
                 {categories?.results?.map((category: Category) => (
@@ -96,7 +96,7 @@ export function CatalogPage() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lavender focus:border-lavender"
               >
                 <option value="name">По названию</option>
                 <option value="-created_at">Сначала новые</option>
@@ -176,19 +176,36 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
       >
         <div className="flex">
           <div className="relative w-48 h-48 flex-shrink-0">
-            <Image
-              src={product.images && product.images.length > 0 && product.images[0] && product.images[0].image ? product.images[0].image : '/placeholder-product.jpg'}
-              alt={product.name}
-              fill
-              className="object-cover"
-              unoptimized
-            />
+            {product.primary_image ? (
+              <img 
+                src={product.primary_image}
+                alt={product.name}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  console.error('Image failed to load:', product.primary_image);
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
+              />
+            ) : (
+              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-lavender rounded-full flex items-center justify-center mx-auto mb-3">
+                    <span className="text-white font-serif font-bold text-xl">
+                      {product.name && product.name.length > 0 ? product.name.charAt(0) : '?'}
+                    </span>
+                  </div>
+                  <p className="text-gray-500 text-sm">Фото отсутствует</p>
+                </div>
+              </div>
+            )}
+            
             {product.is_new && (
               <span className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
                 NEW
               </span>
             )}
-            {product.discount_percent && (
+            {product.discount_percent > 0 && (
               <span className="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
                 -{product.discount_percent}%
               </span>
@@ -197,7 +214,7 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
           
           <div className="flex-1 p-6">
             <div className="flex justify-between items-start mb-2">
-              <h3 className="text-lg font-semibold text-gray-900 hover:text-primary-600 transition-colors">
+              <h3 className="text-lg font-semibold text-gray-900 hover:text-lavender transition-colors">
                 <Link href={`/product/${product.slug}`}>
                   {product.name}
                 </Link>
@@ -213,21 +230,21 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
             </div>
             
             <p className="text-sm text-gray-600 mb-2">{product.category?.name}</p>
-            <p className="text-gray-700 mb-4 line-clamp-2">{product.description}</p>
+            <p className="text-gray-700 mb-4 line-clamp-2">{product.short_description}</p>
             
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 {product.old_price && (
                   <span className="text-sm text-gray-500 line-through">
-                    {product.old_price} ₸
+                    {formatPrice(product.old_price)} ₸
                   </span>
                 )}
-                <span className="text-xl font-bold text-primary-600">
-                  {product.price} ₸
+                <span className="text-xl font-bold text-lavender">
+                  {formatPrice(product.final_price)} ₸
                 </span>
               </div>
               
-              <button className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors flex items-center gap-2">
+              <button className="bg-lavender text-white px-4 py-2 rounded-lg hover:bg-lavender-dark transition-colors flex items-center gap-2">
                 <ShoppingCart className="h-4 w-4" />
                 В корзину
               </button>
@@ -245,13 +262,29 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
       className="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
     >
       <div className="relative aspect-square overflow-hidden">
-        <Image
-          src={product.images && product.images.length > 0 && product.images[0] && product.images[0].image ? product.images[0].image : '/placeholder-product.jpg'}
-          alt={product.name}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-          unoptimized
-        />
+        {product.primary_image ? (
+          <img 
+            src={product.primary_image}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            onError={(e) => {
+              console.error('Image failed to load:', product.primary_image);
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+            }}
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-lavender rounded-full flex items-center justify-center mx-auto mb-3">
+                <span className="text-white font-serif font-bold text-xl">
+                  {product.name && product.name.length > 0 ? product.name.charAt(0) : '?'}
+                </span>
+              </div>
+              <p className="text-gray-500 text-sm">Фото отсутствует</p>
+            </div>
+          </div>
+        )}
         
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
@@ -260,7 +293,7 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
               NEW
             </span>
           )}
-          {product.discount_percent && (
+          {product.discount_percent > 0 && (
             <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
               -{product.discount_percent}%
             </span>
@@ -281,7 +314,7 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
 
         {/* Quick add to cart */}
         <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button className="w-full bg-primary-600 text-white py-2 rounded-lg hover:bg-primary-700 transition-colors flex items-center justify-center gap-2">
+          <button className="w-full bg-lavender text-white py-2 rounded-lg hover:bg-lavender-dark transition-colors flex items-center justify-center gap-2">
             <ShoppingCart className="h-4 w-4" />
             В корзину
           </button>
@@ -289,23 +322,29 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
       </div>
 
       <div className="p-4">
-        <h3 className="font-semibold text-gray-900 mb-1 hover:text-primary-600 transition-colors">
-          <Link href={`/products/${product.id}`}>
+        <h3 className="font-semibold text-gray-900 mb-1 hover:text-lavender transition-colors">
+          <Link href={`/product/${product.slug}`}>
             {product.name}
           </Link>
         </h3>
         
         <p className="text-sm text-gray-600 mb-2">{product.category?.name}</p>
         
+        {product.short_description && (
+          <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+            {product.short_description}
+          </p>
+        )}
+        
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             {product.old_price && (
               <span className="text-sm text-gray-500 line-through">
-                {product.old_price} ₸
+                {formatPrice(product.old_price)} ₸
               </span>
             )}
-            <span className="font-bold text-primary-600">
-              {product.price} ₸
+            <span className="font-bold text-lavender">
+              {formatPrice(product.final_price)} ₸
             </span>
           </div>
           
