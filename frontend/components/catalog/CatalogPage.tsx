@@ -43,7 +43,7 @@ export function CatalogPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16">
+      <section className="bg-gradient-to-br from-lavender to-lavender-dark text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -54,7 +54,7 @@ export function CatalogPage() {
             <h1 className="text-4xl md:text-5xl font-bold font-serif mb-4">
               Каталог украшений
             </h1>
-            <p className="text-xl text-primary-100 max-w-2xl mx-auto">
+            <p className="text-xl text-white/80 max-w-2xl mx-auto">
               Откройте для себя коллекцию изысканных ювелирных изделий, созданных с любовью и вниманием к деталям
             </p>
           </motion.div>
@@ -73,7 +73,7 @@ export function CatalogPage() {
                 placeholder="Поиск украшений..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lavender focus:border-lavender"
               />
             </div>
 
@@ -108,13 +108,13 @@ export function CatalogPage() {
               <div className="flex border border-gray-300 rounded-lg overflow-hidden">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 ${viewMode === 'grid' ? 'bg-primary-500 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
+                  className={`p-2 ${viewMode === 'grid' ? 'bg-lavender text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
                 >
                   <Grid className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 ${viewMode === 'list' ? 'bg-primary-500 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
+                  className={`p-2 ${viewMode === 'list' ? 'bg-lavender text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
                 >
                   <List className="h-5 w-5" />
                 </button>
@@ -134,7 +134,7 @@ export function CatalogPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {productsLoading ? (
             <div className="flex justify-center items-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-lavender"></div>
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-20">

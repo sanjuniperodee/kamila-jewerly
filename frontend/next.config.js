@@ -11,6 +11,12 @@ const nextConfig = {
       },
       {
         protocol: 'http',
+        hostname: 'localhost',
+        port: '8017',
+        pathname: '/media/**',
+      },
+      {
+        protocol: 'http',
         hostname: 'taxi.aktau-go.kz',
         port: '8017',
         pathname: '/media/**',
@@ -21,7 +27,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8017'}/api/:path*`,
       },
     ]
   },

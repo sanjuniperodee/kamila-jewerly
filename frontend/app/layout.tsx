@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Playfair_Display } from 'next/font/google'
+import { Inter, Playfair_Display, Montserrat } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 import { Header } from '@/components/layout/Header'
@@ -15,6 +15,13 @@ const playfair = Playfair_Display({
   subsets: ['latin', 'cyrillic'],
   variable: '--font-playfair',
   display: 'swap',
+})
+
+const montserrat = Montserrat({ 
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-montserrat',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
@@ -94,7 +101,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ru" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="ru" className={`${inter.variable} ${playfair.variable} ${montserrat.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />

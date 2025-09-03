@@ -35,13 +35,13 @@ export function ProductDetail({ product }: ProductDetailProps) {
         <nav className="mb-8">
           <ol className="flex items-center space-x-2 text-sm text-gray-600">
             <li>
-              <Link href="/" className="hover:text-primary-600 transition-colors">
+              <Link href="/" className="hover:text-lavender transition-colors">
                 Главная
               </Link>
             </li>
             <li className="text-gray-400">/</li>
             <li>
-              <Link href="/catalog" className="hover:text-primary-600 transition-colors">
+              <Link href="/catalog" className="hover:text-lavender transition-colors">
                 Каталог
               </Link>
             </li>
@@ -49,7 +49,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             <li>
               <Link 
                 href={`/catalog/${product.category.slug}`} 
-                className="hover:text-primary-600 transition-colors"
+                className="hover:text-lavender transition-colors"
               >
                 {product.category.name}
               </Link>
@@ -63,13 +63,14 @@ export function ProductDetail({ product }: ProductDetailProps) {
           {/* Product Images */}
           <div className="space-y-4">
             {/* Main Image */}
-            <div className="aspect-square bg-white rounded-2xl overflow-hidden shadow-lg">
+            <div className="aspect-square bg-white rounded-2xl overflow-hidden shadow-lg relative">
               {product.images && product.images.length > 0 ? (
                 <Image
                   src={product.images[selectedImage]?.image || product.primary_image || ''}
                   alt={product.images[selectedImage]?.alt_text || product.name}
-                  fill
-                  className="object-cover"
+                  width={600}
+                  height={600}
+                  className="object-contain w-full h-full"
                   priority
                 />
               ) : (
@@ -100,8 +101,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     <Image
                       src={image.image}
                       alt={image.alt_text}
-                      fill
-                      className="object-cover"
+                      width={80}
+                      height={80}
+                      className="object-cover w-full h-full"
                     />
                   </button>
                 ))}
@@ -115,18 +117,18 @@ export function ProductDetail({ product }: ProductDetailProps) {
             <div className="flex items-center justify-between">
               <Link
                 href="/catalog"
-                className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors"
+                className="flex items-center space-x-2 text-gray-600 hover:text-lavender transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Назад к каталогу</span>
               </Link>
-              <button className="p-2 text-gray-600 hover:text-primary-600 transition-colors">
+              <button className="p-2 text-gray-600 hover:text-lavender transition-colors">
                 <Share2 className="w-5 h-5" />
               </button>
             </div>
 
             {/* Category */}
-            <div className="text-sm text-primary-600 font-medium uppercase tracking-wide">
+            <div className="text-sm text-lavender font-medium uppercase tracking-wide">
               {product.category.name}
             </div>
 
@@ -191,7 +193,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                       onClick={() => setSelectedVariant(variant)}
                       className={`px-4 py-2 rounded-lg border-2 transition-colors ${
                         selectedVariant?.id === variant.id
-                          ? 'border-primary-600 bg-primary-50 text-primary-600'
+                          ? 'border-lavender bg-lavender-light/20 text-lavender-dark'
                           : 'border-gray-200 hover:border-gray-300 text-gray-700'
                       }`}
                     >
@@ -240,7 +242,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <button
                 onClick={handleAddToCart}
                 disabled={product.stock_quantity === 0}
-                className="flex-1 bg-primary-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-primary-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+                className="flex-1 bg-lavender text-white py-4 px-6 rounded-lg font-semibold hover:bg-lavender-dark disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2 shadow-md"
               >
                 <ShoppingCart className="w-5 h-5" />
                 <span>Добавить в корзину</span>

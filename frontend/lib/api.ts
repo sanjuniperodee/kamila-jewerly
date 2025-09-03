@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8017'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://taxi.aktau-go.kz:8017'
 
 // Debug: выводим переменную окружения в консоль
 console.log('NEXT_PUBLIC_API_URL:', process.env.NEXT_PUBLIC_API_URL)

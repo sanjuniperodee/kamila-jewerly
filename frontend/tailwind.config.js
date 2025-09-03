@@ -9,16 +9,16 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: '#fdf4ff',
-          100: '#fae8ff',
-          200: '#f5d0fe',
-          300: '#f0abfc',
-          400: '#e879f9',
-          500: '#d946ef',
-          600: '#c026d3',
-          700: '#a21caf',
-          800: '#86198f',
-          900: '#701a75',
+          50: '#f3f1f9',
+          100: '#e7e3f3',
+          200: '#d0c8e7',
+          300: '#b8acd9',
+          400: '#9f8fcc',
+          500: '#8673bf',
+          600: '#7a6ab3',
+          700: '#6a5ca5',
+          800: '#5c4e97',
+          900: '#4e4089',
         },
         gold: {
           50: '#fffbeb',
@@ -32,10 +32,15 @@ module.exports = {
           800: '#92400e',
           900: '#78350f',
         },
+        lavender: {
+          DEFAULT: '#8673bf',
+          light: '#b8acd9',
+          dark: '#5c4e97',
+        },
       },
       fontFamily: {
         'serif': ['Playfair Display', 'serif'],
-        'sans': ['Inter', 'sans-serif'],
+        'sans': ['Montserrat', 'Inter', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
