@@ -1,15 +1,13 @@
 version: '3.3'
 
-# Load environment variables from .env file
-env_file:
-  - .env
-
 services:
   # Django Backend
   backend:
     build: ./backend
     container_name: kamil_backend
     restart: unless-stopped
+    env_file:
+      - .env
     ports:
       - "${BACKEND_PORT:-8017}:8000"
     volumes:
@@ -18,7 +16,7 @@ services:
       - media_volume:/app/media
     environment:
       - DEBUG=${DEBUG:-0}
-      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-localhost 127.0.0.1 [::1]}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-*}
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-your-secret-key-here-change-in-production}
       - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:postgres@db:5432/kamil_jewelry}
     depends_on:
@@ -31,6 +29,8 @@ services:
     build: ./frontend
     container_name: kamil_frontend
     restart: unless-stopped
+    env_file:
+      - .env
     ports:
       - "${FRONTEND_PORT:-3001}:3000"
     volumes:
@@ -49,6 +49,8 @@ services:
     image: postgres:15
     container_name: kamil_db
     restart: unless-stopped
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
