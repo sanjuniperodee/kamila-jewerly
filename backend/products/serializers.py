@@ -42,7 +42,13 @@ class ProductListSerializer(serializers.ModelSerializer):
         ]
     
     def get_primary_image(self, obj):
+        # Сначала ищем главное изображение
         primary_image = obj.images.filter(is_primary=True).first()
+        
+        # Если главного нет, берем первое доступное
+        if not primary_image:
+            primary_image = obj.images.first()
+            
         if primary_image:
             request = self.context.get('request')
             if request:

@@ -14,7 +14,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
       {/* Product Image */}
-      <div className="relative aspect-square bg-gray-100">
+      <div className="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-200">
         {product.primary_image ? (
           <Image
             src={product.primary_image}
@@ -24,11 +24,14 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <div className="text-gray-400 text-center">
-              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-2">
-                <span className="text-2xl">💎</span>
+            <div className="text-center">
+              <div className="w-20 h-20 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span className="text-white font-serif font-bold text-2xl">
+                  {product.name && product.name.length > 0 ? product.name.charAt(0) : '?'}
+                </span>
               </div>
-              <p className="text-sm">Фото отсутствует</p>
+              <p className="text-gray-600 font-medium text-sm">{product.name || 'Без названия'}</p>
+              <p className="text-gray-500 text-xs mt-1">Фото отсутствует</p>
             </div>
           </div>
         )}
