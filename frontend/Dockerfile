@@ -2,12 +2,6 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Копирование package.json
-COPY package*.json ./
-
-# Установка зависимостей
-RUN npm install
-
 # Копирование .env файла из корня проекта
 COPY .env .env
 
