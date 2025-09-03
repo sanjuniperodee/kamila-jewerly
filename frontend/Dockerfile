@@ -8,14 +8,18 @@ COPY package*.json ./
 # Установка зависимостей
 RUN npm install
 
+# Копирование .env файла из корня проекта
+COPY .env .env
+
 # Копирование кода приложения
-COPY . .
+COPY frontend/ .
 
 # Передача переменной окружения во время сборки
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
-# Сборка приложения
+# Очистка кэша и сборка приложения
+RUN rm -rf .next
 RUN npm run build
 
 # Открытие порта

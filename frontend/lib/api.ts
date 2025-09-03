@@ -2,6 +2,10 @@ import axios from 'axios'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8017'
 
+// Debug: выводим переменную окружения в консоль
+console.log('NEXT_PUBLIC_API_URL:', process.env.NEXT_PUBLIC_API_URL)
+console.log('Final API_URL:', API_URL)
+
 // Create axios instance with default config
 export const api = axios.create({
   baseURL: `${API_URL}/api`,
