@@ -1,0 +1,437 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('KAMIL Jewelry Admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}" style="color: #d4af37; text-decoration: none; font-weight: 600; font-size: 24px;">
+        ✨ KAMIL Jewelry
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    /* Main color scheme matching the website */
+    :root {
+        --primary-color: #d4af37;
+        --primary-dark: #b8941f;
+        --secondary-color: #2d3748;
+        --accent-color: #4a5568;
+        --light-bg: #f7fafc;
+        --white: #ffffff;
+        --text-dark: #1a202c;
+        --text-muted: #718096;
+        --border-color: #e2e8f0;
+        --success-color: #38a169;
+        --error-color: #e53e3e;
+    }
+
+    /* Header styling */
+    #header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: white;
+        border-bottom: 3px solid var(--primary-dark);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #site-name a {
+        color: white !important;
+        font-family: 'Playfair Display', serif;
+        font-size: 28px !important;
+        font-weight: 700 !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    #site-name a:hover {
+        color: #f7fafc !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* User tools styling */
+    #user-tools {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 8px 16px;
+        backdrop-filter: blur(10px);
+    }
+
+    #user-tools a {
+        color: white !important;
+        font-weight: 500;
+    }
+
+    #user-tools a:hover {
+        color: var(--light-bg) !important;
+        text-decoration: none;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+        background: var(--light-bg);
+        border-bottom: 1px solid var(--border-color);
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .breadcrumbs a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .breadcrumbs a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+    }
+
+    /* Main content area */
+    #content {
+        background: var(--white);
+        min-height: calc(100vh - 120px);
+    }
+
+    /* Module styling */
+    .module {
+        background: var(--white);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+
+    .module h2 {
+        background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 16px 20px;
+        margin: 0;
+        border-bottom: none;
+    }
+
+    .module h3 {
+        background: var(--light-bg);
+        color: var(--text-dark);
+        font-size: 15px;
+        font-weight: 600;
+        padding: 12px 20px;
+        margin: 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Table styling */
+    .results {
+        border: none;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .results thead th {
+        background: var(--secondary-color);
+        color: white;
+        font-weight: 600;
+        padding: 16px 12px;
+        border: none;
+        font-size: 14px;
+    }
+
+    .results tbody tr {
+        border-bottom: 1px solid var(--border-color);
+        transition: background-color 0.2s ease;
+    }
+
+    .results tbody tr:hover {
+        background: var(--light-bg);
+    }
+
+    .results tbody td {
+        padding: 12px;
+        border: none;
+        color: var(--text-dark);
+    }
+
+    /* Form styling */
+    .form-row {
+        margin-bottom: 20px;
+        padding: 16px;
+        background: var(--white);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+    }
+
+    .form-row label {
+        color: var(--text-dark);
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    input[type="text"], 
+    input[type="email"], 
+    input[type="number"], 
+    input[type="url"], 
+    input[type="password"],
+    textarea, 
+    select {
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 14px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        background: var(--white);
+        color: var(--text-dark);
+    }
+
+    input[type="text"]:focus, 
+    input[type="email"]:focus, 
+    input[type="number"]:focus, 
+    input[type="url"]:focus, 
+    input[type="password"]:focus,
+    textarea:focus, 
+    select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        outline: none;
+    }
+
+    /* Button styling */
+    .default, 
+    input[type="submit"], 
+    .submit-row input,
+    .button {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .default:hover, 
+    input[type="submit"]:hover, 
+    .submit-row input:hover,
+    .button:hover {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, #9d7a1a 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        color: white;
+    }
+
+    .default:active, 
+    input[type="submit"]:active, 
+    .submit-row input:active,
+    .button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(212, 175, 55, 0.2);
+    }
+
+    /* Delete button styling */
+    .deletelink {
+        background: linear-gradient(135deg, var(--error-color) 0%, #c53030 100%) !important;
+        color: white !important;
+    }
+
+    .deletelink:hover {
+        background: linear-gradient(135deg, #c53030 0%, #9c2626 100%) !important;
+        color: white !important;
+    }
+
+    /* Add button styling */
+    .addlink {
+        background: linear-gradient(135deg, var(--success-color) 0%, #2f855a 100%) !important;
+        color: white !important;
+    }
+
+    .addlink:hover {
+        background: linear-gradient(135deg, #2f855a 0%, #276749 100%) !important;
+        color: white !important;
+    }
+
+    /* Dashboard styling */
+    #content-main .module {
+        margin: 20px 0;
+    }
+
+    .dashboard #content {
+        width: 100%;
+    }
+
+    .dashboard .module table {
+        width: 100%;
+    }
+
+    /* Action buttons */
+    .object-tools {
+        float: right;
+        margin: 0 0 20px 20px;
+    }
+
+    .object-tools li {
+        background: var(--primary-color);
+        border-radius: 8px;
+        margin-left: 10px;
+    }
+
+    .object-tools a {
+        color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .object-tools a:hover {
+        background: var(--primary-dark);
+        color: white;
+    }
+
+    /* Pagination */
+    .paginator {
+        background: var(--light-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 12px 20px;
+        margin: 20px 0;
+    }
+
+    .paginator a {
+        color: var(--primary-color);
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-weight: 500;
+        margin: 0 2px;
+    }
+
+    .paginator a:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .paginator .this-page {
+        background: var(--primary-color);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        margin: 0 2px;
+    }
+
+    /* Messages */
+    .messagelist {
+        margin: 0 0 20px 0;
+        padding: 0;
+    }
+
+    .messagelist li {
+        background: var(--success-color);
+        color: white;
+        padding: 16px 20px;
+        margin: 0 0 10px 0;
+        border-radius: 8px;
+        font-weight: 500;
+        box-shadow: 0 2px 8px rgba(56, 161, 105, 0.2);
+    }
+
+    .messagelist li.error {
+        background: var(--error-color);
+        box-shadow: 0 2px 8px rgba(229, 62, 62, 0.2);
+    }
+
+    .messagelist li.warning {
+        background: #ed8936;
+        box-shadow: 0 2px 8px rgba(237, 137, 54, 0.2);
+    }
+
+    /* Footer */
+    #footer {
+        background: var(--secondary-color);
+        color: var(--text-muted);
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        border-top: 3px solid var(--primary-color);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        #header {
+            text-align: center;
+            padding: 15px 10px;
+        }
+
+        #site-name a {
+            font-size: 24px !important;
+        }
+
+        #user-tools {
+            margin-top: 10px;
+        }
+
+        .object-tools {
+            float: none;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .results {
+            font-size: 12px;
+        }
+
+        .results th,
+        .results td {
+            padding: 8px 6px;
+        }
+    }
+
+    /* Custom jewelry-themed icons */
+    .model-product .addlink:before,
+    .model-product .changelink:before {
+        content: "💎 ";
+    }
+
+    .model-order .addlink:before,
+    .model-order .changelink:before {
+        content: "🛒 ";
+    }
+
+    .model-blogpost .addlink:before,
+    .model-blogpost .changelink:before {
+        content: "📝 ";
+    }
+
+    .model-category .addlink:before,
+    .model-category .changelink:before {
+        content: "📂 ";
+    }
+
+    /* Loading animation */
+    .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(212, 175, 55, 0.3);
+        border-radius: 50%;
+        border-top-color: var(--primary-color);
+        animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+</style>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+{% endblock %}

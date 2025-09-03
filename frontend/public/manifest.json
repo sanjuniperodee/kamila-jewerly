@@ -1,0 +1,26 @@
+{
+  "name": "KAMIL Jewelry",
+  "short_name": "KAMIL",
+  "description": "Бутик-ателье украшений для женщин с характером и стилем",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "lifestyle", "fashion"],
+  "lang": "ru",
+  "dir": "ltr"
+}

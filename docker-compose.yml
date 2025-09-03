@@ -1,0 +1,83 @@
+services:
+  # Django Backend
+  backend:
+    build: ./backend
+    container_name: kamil_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    environment:
+      - DEBUG=0
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - DJANGO_SECRET_KEY=your-secret-key-here-change-in-production
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/kamil_jewelry
+    depends_on:
+      - db
+    networks:
+      - kamil_network
+
+  # Next.js Frontend
+  frontend:
+    build: ./frontend
+    container_name: kamil_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - kamil_network
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15
+    container_name: kamil_db
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=kamil_jewelry
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - kamil_network
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: kamil_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - static_volume:/var/www/static
+      - media_volume:/var/www/media
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - kamil_network
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+
+networks:
+  kamil_network:
+    driver: bridge
