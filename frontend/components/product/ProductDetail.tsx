@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { Star, Heart, ShoppingCart, ArrowLeft, Share2 } from 'lucide-react'
+import { Star, Heart, ShoppingCart, ArrowLeft, Share2, ChevronDown, ChevronUp } from 'lucide-react'
 import { Product } from '@/lib/api'
 import Link from 'next/link'
 import { formatPrice } from '@/lib/utils'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface ProductDetailProps {
   product: Product
@@ -15,6 +16,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
   const [selectedVariant, setSelectedVariant] = useState(product.variants?.[0] || null)
   const [quantity, setQuantity] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
+  const [isDescriptionLong, setIsDescriptionLong] = useState(false)
+  const descriptionRef = useRef<HTMLDivElement>(null)
 
   const hasDiscount = product.discount_percent > 0
   const finalPrice = selectedVariant ? selectedVariant.final_price : product.final_price
@@ -28,6 +32,17 @@ export function ProductDetail({ product }: ProductDetailProps) {
       quantity
     })
   }
+  
+  // Check if description is long enough to need expansion
+  useEffect(() => {
+    if (descriptionRef.current) {
+      const description = product.description || product.short_description || '';
+      const paragraphs = description.split('\n');
+      
+      // Check if description is long (more than 3 paragraphs or more than 300 characters)
+      setIsDescriptionLong(paragraphs.length > 3 || description.length > 300);
+    }
+  }, [product.description, product.short_description]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -136,7 +151,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </div>
 
             {/* Product Name */}
-            <h1 className="text-3xl md:text-4xl font-serif font-bold text-gray-900">
+            <h1 className="text-3xl md:text-4xl font-heading font-bold text-gray-900">
               {product.name}
             </h1>
 
@@ -179,16 +194,63 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
             {/* Description */}
             <div className="space-y-3">
-              <h3 className="text-lg font-semibold text-gray-900">Описание</h3>
-              <p className="text-gray-600 leading-relaxed">
-                {product.description || product.short_description || 'Описание товара отсутствует'}
-              </p>
+              <h3 className="text-lg font-accent font-semibold text-gray-900">Описание</h3>
+              
+              <div className="relative">
+                <div 
+                  ref={descriptionRef} 
+                  className={`text-gray-600 leading-relaxed font-sans relative ${isDescriptionLong && !isDescriptionExpanded ? 'max-h-[150px] overflow-hidden' : ''}`}
+                >
+                  <AnimatePresence initial={false} mode="wait">
+                    <motion.div
+                      key={isDescriptionExpanded ? 'expanded' : 'collapsed'}
+                      initial={{ opacity: 0.8 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0.8 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {(product.description || product.short_description || 'Описание товара отсутствует')
+                        .split('\n')
+                        .map((paragraph, index) => (
+                          <p key={index} className={index > 0 ? 'mt-3' : ''}>
+                            {paragraph}
+                          </p>
+                        ))
+                      }
+                    </motion.div>
+                  </AnimatePresence>
+                  
+                  {/* Gradient overlay when collapsed */}
+                  {isDescriptionLong && !isDescriptionExpanded && (
+                    <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none"></div>
+                  )}
+                </div>
+                
+                {/* Read more/less button */}
+                {isDescriptionLong && (
+                  <motion.button
+                    onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                    className="mt-2 flex items-center gap-1 text-lavender hover:text-lavender-dark transition-colors font-medium"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <span>{isDescriptionExpanded ? 'Свернуть' : 'Читать полностью'}</span>
+                    {isDescriptionExpanded ? (
+                      <ChevronUp className="w-4 h-4" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4" />
+                    )}
+                  </motion.button>
+                )}
+              </div>
             </div>
 
             {/* Variants */}
             {product.variants && product.variants.length > 0 && (
               <div className="space-y-3">
-                <h3 className="text-lg font-semibold text-gray-900">Варианты</h3>
+                <h3 className="text-lg font-accent font-semibold text-gray-900">Варианты</h3>
                 <div className="flex flex-wrap gap-2">
                   {product.variants.map((variant) => (
                     <button
@@ -209,7 +271,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
             {/* Quantity */}
             <div className="space-y-3">
-              <h3 className="text-lg font-semibold text-gray-900">Количество</h3>
+              <h3 className="text-lg font-accent font-semibold text-gray-900">Количество</h3>
               <div className="flex items-center space-x-3">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -257,7 +319,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
             {/* Product Details */}
             <div className="border-t pt-6 space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900">Детали товара</h3>
+              <h3 className="text-lg font-accent font-semibold text-gray-900">Детали товара</h3>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <span className="text-gray-600">Артикул:</span>

@@ -41,6 +41,8 @@ module.exports = {
       fontFamily: {
         'serif': ['Playfair Display', 'serif'],
         'sans': ['Montserrat', 'Inter', 'sans-serif'],
+        'heading': ['Cormorant Garamond', 'serif'],
+        'accent': ['Lora', 'serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

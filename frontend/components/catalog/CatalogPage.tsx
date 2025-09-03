@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, Filter, Grid, List, Star, Heart, ShoppingCart } from 'lucide-react'
+import { Search, Filter, Grid, List, Star, Heart, ShoppingCart, ChevronDown, ChevronUp } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { productApi, categoryApi, type Product, type Category } from '@/lib/api'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { formatPrice } from '@/lib/utils'
 
 export function CatalogPage() {
@@ -51,7 +51,7 @@ export function CatalogPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <h1 className="text-4xl md:text-5xl font-bold font-serif mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold font-heading mb-4">
               Каталог украшений
             </h1>
             <p className="text-xl text-white/80 max-w-2xl mx-auto">
@@ -141,7 +141,7 @@ export function CatalogPage() {
               <div className="text-gray-400 mb-4">
                 <Search className="h-16 w-16 mx-auto" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-accent font-semibold text-gray-900 mb-2">
                 Товары не найдены
               </h3>
               <p className="text-gray-600">
@@ -166,6 +166,7 @@ export function CatalogPage() {
 
 function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid' | 'list' }) {
   const [isLiked, setIsLiked] = useState(false)
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
   
   if (viewMode === 'list') {
     return (
@@ -214,7 +215,7 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
           
           <div className="flex-1 p-6">
             <div className="flex justify-between items-start mb-2">
-              <h3 className="text-lg font-semibold text-gray-900 hover:text-lavender transition-colors">
+              <h3 className="text-lg font-accent font-semibold text-gray-900 hover:text-lavender transition-colors">
                 <Link href={`/product/${product.slug}`}>
                   {product.name}
                 </Link>
@@ -230,7 +231,39 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
             </div>
             
             <p className="text-sm text-gray-600 mb-2">{product.category?.name}</p>
-            <p className="text-gray-700 mb-4 line-clamp-2">{product.short_description}</p>
+            
+            <div className="text-gray-700 mb-4 font-sans relative">
+              <AnimatePresence initial={false} mode="wait">
+                <motion.div
+                  key={isDescriptionExpanded ? 'expanded' : 'collapsed'}
+                  initial={{ opacity: 0.8 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0.8 }}
+                  transition={{ duration: 0.3 }}
+                  className={isDescriptionExpanded ? '' : 'line-clamp-2'}
+                >
+                  {(product.short_description || '').split('\n').map((paragraph, index) => (
+                    <p key={index} className={index > 0 ? 'mt-2' : ''}>
+                      {paragraph}
+                    </p>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+              
+              {product.short_description && product.short_description.length > 100 && (
+                <button
+                  onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                  className="text-xs text-lavender hover:text-lavender-dark transition-colors flex items-center gap-1 mt-1 font-medium"
+                >
+                  {isDescriptionExpanded ? 'Свернуть' : 'Читать полностью'}
+                  {isDescriptionExpanded ? (
+                    <ChevronUp className="w-3 h-3" />
+                  ) : (
+                    <ChevronDown className="w-3 h-3" />
+                  )}
+                </button>
+              )}
+            </div>
             
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
@@ -322,7 +355,7 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
       </div>
 
       <div className="p-4">
-        <h3 className="font-semibold text-gray-900 mb-1 hover:text-lavender transition-colors">
+        <h3 className="font-accent font-semibold text-gray-900 mb-1 hover:text-lavender transition-colors">
           <Link href={`/product/${product.slug}`}>
             {product.name}
           </Link>
@@ -331,9 +364,38 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
         <p className="text-sm text-gray-600 mb-2">{product.category?.name}</p>
         
         {product.short_description && (
-          <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-            {product.short_description}
-          </p>
+          <div className="text-sm text-gray-600 mb-3 font-sans relative">
+            <AnimatePresence initial={false} mode="wait">
+              <motion.div
+                key={isDescriptionExpanded ? 'expanded' : 'collapsed'}
+                initial={{ opacity: 0.8 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0.8 }}
+                transition={{ duration: 0.3 }}
+                className={isDescriptionExpanded ? '' : 'line-clamp-2'}
+              >
+                {product.short_description.split('\n').map((paragraph, index) => (
+                  <p key={index} className={index > 0 ? 'mt-1' : ''}>
+                    {paragraph}
+                  </p>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+            
+            {product.short_description.length > 80 && (
+              <button
+                onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                className="text-xs text-lavender hover:text-lavender-dark transition-colors flex items-center gap-1 mt-1 font-medium"
+              >
+                {isDescriptionExpanded ? 'Свернуть' : 'Подробнее'}
+                {isDescriptionExpanded ? (
+                  <ChevronUp className="w-3 h-3" />
+                ) : (
+                  <ChevronDown className="w-3 h-3" />
+                )}
+              </button>
+            )}
+          </div>
         )}
         
         <div className="flex items-center justify-between">

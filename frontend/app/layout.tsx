@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Playfair_Display, Montserrat } from 'next/font/google'
+import { Inter, Playfair_Display, Montserrat, Cormorant_Garamond, Lora } from 'next/font/google'
 import './globals.css'
 import './font-override.css'
 import { Providers } from './providers'
@@ -21,6 +21,20 @@ const playfair = Playfair_Display({
 const montserrat = Montserrat({ 
   subsets: ['latin', 'cyrillic'],
   variable: '--font-montserrat',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+})
+
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-cormorant',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+})
+
+const lora = Lora({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-lora',
   display: 'swap',
   weight: ['400', '500', '600', '700'],
 })
@@ -102,7 +116,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ru" className={`${inter.variable} ${playfair.variable} ${montserrat.variable}`}>
+    <html lang="ru" className={`${inter.variable} ${playfair.variable} ${montserrat.variable} ${cormorant.variable} ${lora.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -113,7 +127,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet" />
         
         {/* Structured Data */}
         <script
@@ -129,7 +143,7 @@ export default function RootLayout({
               "image": "https://kamiljewelry.kz/og-image.jpg",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "Пр. Абая, 48 (угол ул. Ш. Уалиханова)",
+                "streetAddress": "Проспект Абая, 48, ТЦ Жаннур, 1 этаж",
                 "addressLocality": "Астана",
                 "addressCountry": "KZ"
               },
@@ -148,7 +162,7 @@ export default function RootLayout({
                 "https://instagram.com/kamil_jewelry",
                 "https://wa.me/77051293500"
               ],
-              "openingHours": "Mo-Su 10:00-20:00",
+              "openingHours": "Mo-Su 10:00-22:00",
               "priceRange": "$$"
             })
           }}

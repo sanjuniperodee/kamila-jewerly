@@ -81,16 +81,17 @@ export function Footer() {
             <h3 className="text-lg font-semibold">Наши контакты</h3>
             <div className="space-y-3">
               <div className="flex items-start space-x-3">
-                <MapPin className="w-4 h-4 text-primary-400 mt-1 flex-shrink-0" />
+                <MapPin className="w-4 h-4 text-lavender mt-1 flex-shrink-0" />
                 <div className="text-sm text-gray-300">
                   <p>Казахстан, г. Астана</p>
-                  <p>Пр. Абая, 48 (угол ул. Ш. Уалиханова)</p>
+                  <p>Проспект Абая, 48</p>
                   <p>ТЦ &ldquo;ЖАННУР&rdquo;, 1 этаж</p>
+                  <p className="text-xs text-gray-400 mt-1">Байконыр район, Z00P4K7</p>
                 </div>
               </div>
               
               <div className="flex items-center space-x-3">
-                <Phone className="w-4 h-4 text-primary-400" />
+                <Phone className="w-4 h-4 text-lavender" />
                 <a 
                   href="tel:+77051293500" 
                   className="text-sm text-gray-300 hover:text-white transition-colors"
@@ -99,8 +100,19 @@ export function Footer() {
                 </a>
               </div>
               
+              <div className="flex items-start space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-lavender mt-1 flex-shrink-0">
+                  <rect width="20" height="14" x="2" y="5" rx="2" />
+                  <path d="M2 10h20" />
+                </svg>
+                <div className="text-sm text-gray-300">
+                  <p>Режим работы:</p>
+                  <p>Ежедневно с 10:00 до 22:00</p>
+                </div>
+              </div>
+              
               <div className="flex items-center space-x-3">
-                <Mail className="w-4 h-4 text-primary-400" />
+                <Mail className="w-4 h-4 text-lavender" />
                 <a 
                   href="mailto:kamil_jewelry@mail.ru" 
                   className="text-sm text-gray-300 hover:text-white transition-colors"

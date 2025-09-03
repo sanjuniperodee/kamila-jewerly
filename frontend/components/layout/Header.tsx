@@ -7,6 +7,7 @@ import { Menu, X, ShoppingBag, Search, User, Heart } from 'lucide-react'
 
 const navigation = [
   { name: 'ГЛАВНАЯ', href: '/' },
+  { name: 'КАТАЛОГ', href: '/catalog' },
   { name: 'О НАС', href: '/about' },
   { name: 'БЛОГ', href: '/blog' },
   { name: 'ДОСТАВКА', href: '/delivery' },
