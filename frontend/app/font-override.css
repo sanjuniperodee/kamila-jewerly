@@ -1,0 +1,17 @@
+/* Force Montserrat font on all elements */
+* {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+body {
+  font-weight: 500;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+/* Exception for font awesome or other icon fonts */
+.fa, .fas, .far, .fal, .fab, .icon {
+  font-family: inherit !important;
+}
