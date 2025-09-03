@@ -140,7 +140,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # Более гибкие CORS настройки
-CORS_ALLOW_ALL_ORIGINS = True  # Временно разрешаем все origins
+CORS_ALLOW_ALL_ORIGINS = False  # Отключаем allow all origins
 CORS_ALLOW_CREDENTIALS = True
 
 # Дополнительные настройки для отладки
@@ -168,6 +168,15 @@ CORS_ALLOW_METHODS = [
 # Отладочные настройки CORS
 CORS_URLS_REGEX = r'^.*$'  # Применять CORS ко всем URL
 CORS_REPLACE_HTTPS_REFERER = False
+
+# Дополнительные настройки для credentials
+CORS_EXPOSE_HEADERS = [
+    'content-type',
+    'x-csrftoken',
+]
+
+# Настройки для preflight запросов
+CORS_PREFLIGHT_MAX_AGE = 86400
 
 # File upload settings
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB

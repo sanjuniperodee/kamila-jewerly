@@ -13,7 +13,7 @@ export const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // Important for session-based cart
+  withCredentials: false, // Temporarily disabled for CORS testing
 })
 
 // Request interceptor
