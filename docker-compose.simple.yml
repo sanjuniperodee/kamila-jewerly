@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.7'
 
 services:
   # Django Backend
@@ -19,8 +19,6 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/kamil_jewelry
     depends_on:
       - db
-    networks:
-      - kamil_network
 
   # Next.js Frontend
   frontend:
@@ -37,8 +35,6 @@ services:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
     depends_on:
       - backend
-    networks:
-      - kamil_network
 
   # PostgreSQL Database
   db:
@@ -53,8 +49,6 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
-    networks:
-      - kamil_network
 
   # Nginx Reverse Proxy
   nginx:
@@ -72,14 +66,8 @@ services:
     depends_on:
       - frontend
       - backend
-    networks:
-      - kamil_network
 
 volumes:
   postgres_data:
   static_volume:
   media_volume:
-
-networks:
-  kamil_network:
-    driver: bridge
