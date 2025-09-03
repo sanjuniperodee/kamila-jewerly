@@ -11,7 +11,13 @@ RUN npm install
 # Копирование .env файла из корня проекта
 COPY .env .env
 
-# Копирование кода приложения
+# Копирование package.json из папки frontend
+COPY frontend/package*.json ./
+
+# Установка зависимостей
+RUN npm install
+
+# Копирование кода приложения из папки frontend
 COPY frontend/ .
 
 # Передача переменной окружения во время сборки
