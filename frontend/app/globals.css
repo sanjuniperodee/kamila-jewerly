@@ -17,7 +17,7 @@
   
   body {
     font-feature-settings: 'rlig' 1, 'calt' 1;
-    font-family: var(--font-montserrat);
+    font-family: 'Montserrat', sans-serif !important;
     font-weight: 500;
   }
 
@@ -25,7 +25,8 @@
     font-weight: 600;
   }
 
-  p, li, span, div {
+  p, li, span, div, button, a, input, select, textarea {
+    font-family: 'Montserrat', sans-serif !important;
     font-weight: 500;
   }
 }
