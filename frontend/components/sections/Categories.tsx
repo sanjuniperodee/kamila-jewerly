@@ -26,18 +26,33 @@ export function Categories({ categories, isLoading }: CategoriesProps) {
             <div key={category.id} className="group relative">
               <Link href={`/catalog/${category.slug}`}>
                 <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2">
-                                      {/* Image placeholder */}
-                    <div className="aspect-[4/5] bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                        <div className="text-center">
-                          <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <span className="text-white font-serif font-bold text-xl">
-                              {category.name && category.name.length > 0 ? category.name.charAt(0) : '?'}
-                            </span>
-                          </div>
-                          <p className="text-gray-500 text-sm">{category.name || 'Без названия'}</p>
+                                      {/* Image */}
+                  <div className="aspect-[4/5] bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
+                    {category.image ? (
+                      <img 
+                        src={category.image} 
+                        alt={category.name || 'Категория'}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          // Fallback к placeholder если изображение не загрузилось
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          target.nextElementSibling?.classList.remove('hidden');
+                        }}
+                      />
+                    ) : null}
+                    
+                    {/* Fallback placeholder */}
+                    <div className={`w-full h-full bg-gray-200 flex items-center justify-center ${category.image ? 'hidden' : ''}`}>
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                          <span className="text-white font-serif font-bold text-xl">
+                            {category.name && category.name.length > 0 ? category.name.charAt(0) : '?'}
+                          </span>
                         </div>
+                        <p className="text-gray-500 text-sm">{category.name || 'Без названия'}</p>
                       </div>
+                    </div>
                     
                     {/* Products count badge */}
                     {category.products_count > 0 && (
