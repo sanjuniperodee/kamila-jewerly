@@ -88,7 +88,17 @@ services:
 volumes:
   postgres_data:
   static_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /var/www/kamila-jewelry/static
   media_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /var/www/kamila-jewelry/media
 
 networks:
   kamil_network:
