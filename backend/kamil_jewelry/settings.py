@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('DJANGO_SECRET_KEY', default='django-insecure-change-me-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '*']
 
@@ -131,9 +131,16 @@ REST_FRAMEWORK = {
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    "https://www.kamiljewelry.kz"
+    "https://kamiljewelry.kz",
+    "https://www.kamiljewelry.kz",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://kamiljewelry.kz",
+    "https://www.kamiljewelry.kz",
+    "https://api.kamiljewelry.kz",
+    "https://taxi.aktau-go.kz",
+]
 # Более гибкие CORS настройки
 CORS_ALLOW_ALL_ORIGINS = False  # Отключаем allow all origins
 CORS_ALLOW_CREDENTIALS = True
