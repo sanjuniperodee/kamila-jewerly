@@ -7,6 +7,7 @@ import { productApi, categoryApi, type Product, type Category } from '@/lib/api'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { formatPrice } from '@/lib/utils'
+import Image from 'next/image'
 
 export function CatalogPage() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -178,15 +179,12 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
         <div className="flex">
           <div className="relative w-48 h-48 flex-shrink-0">
             {product.primary_image ? (
-              <img 
+              <Image 
                 src={product.primary_image}
                 alt={product.name}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  console.error('Image failed to load:', product.primary_image);
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                }}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 192px"
               />
             ) : (
               <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -296,15 +294,12 @@ function ProductCard({ product, viewMode }: { product: Product; viewMode: 'grid'
     >
       <div className="relative aspect-square overflow-hidden">
         {product.primary_image ? (
-          <img 
+          <Image 
             src={product.primary_image}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            onError={(e) => {
-              console.error('Image failed to load:', product.primary_image);
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-            }}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            sizes="(max-width: 768px) 100vw, 300px"
           />
         ) : (
           <div className="w-full h-full bg-gray-200 flex items-center justify-center">

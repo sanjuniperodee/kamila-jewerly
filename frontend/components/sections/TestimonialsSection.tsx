@@ -115,7 +115,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="text-gray-700 leading-relaxed text-lg"
                   >
-                    "{testimonial.text}"
+                    &ldquo;{testimonial.text}&rdquo;
                   </motion.p>
 
                   {/* Author */}
