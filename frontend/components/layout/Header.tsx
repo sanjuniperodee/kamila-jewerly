@@ -2,203 +2,242 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Menu, X, ShoppingBag, Heart, User, Search } from 'lucide-react'
 import Image from 'next/image'
-import { Menu, X, ShoppingBag, Search, User, Heart } from 'lucide-react'
-
-const navigation = [
-  { name: 'ГЛАВНАЯ', href: '/' },
-  { name: 'КАТАЛОГ', href: '/catalog' },
-  { name: 'О НАС', href: '/about' },
-  { name: 'БЛОГ', href: '/blog' },
-  { name: 'ДОСТАВКА', href: '/delivery' },
-  { name: 'КОНТАКТЫ', href: '/contacts' },
-  { name: 'КОРЗИНА', href: '/cart', icon: ShoppingBag },
-]
 
 export function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
 
-  // Check if we're on mobile and handle scroll events
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024)
-    }
-    
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
-    
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
     window.addEventListener('scroll', handleScroll)
-    
-    return () => {
-      window.removeEventListener('resize', checkMobile)
-      window.removeEventListener('scroll', handleScroll)
-    }
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const navItems = [
+    { name: 'Главная', href: '/' },
+    { name: 'Каталог', href: '/catalog' },
+    { name: 'О нас', href: '/about' },
+    { name: 'Блог', href: '/blog' },
+    { name: 'Контакты', href: '/contacts' },
+  ]
+
   return (
-    <header className={`bg-white sticky top-0 z-50 shadow-sm transition-all duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
-      <div className="container mx-auto">
-        {/* Mobile Header */}
-        <div className="lg:hidden flex items-center justify-between py-3 px-4">
-          {/* Menu Button */}
-          <button
-            type="button"
-            className="p-2 rounded-md text-gray-900 hover:bg-gray-100"
-            onClick={() => setMobileMenuOpen(true)}
-            aria-label="Открыть меню"
-          >
-            <Menu className="w-6 h-6" />
-          </button>
-          
-          {/* Logo (smaller on mobile) */}
-          <Link href="/" className="flex items-center">
-            <div className="relative w-32 h-16">
-              <Image
-                src="/logo.png"
-                alt="KAMIL Jewelry"
-                fill
-                priority
-                sizes="128px"
-                className="object-contain"
-              />
-            </div>
-          </Link>
-          
-          {/* Cart Icon */}
-          <Link href="/cart" className="p-2 text-gray-900 hover:text-lavender transition-colors">
-            <ShoppingBag className="w-6 h-6" />
-          </Link>
-        </div>
-        
-        {/* Desktop Header */}
-        <div className="hidden lg:block">
-          {/* Logo Section */}
-          <div className="flex justify-center">
-            <Link href="/" className="flex items-center">
-              <div className="relative w-56 h-36">
-                <Image
-                  src="/logo.png"
-                  alt="KAMIL Jewelry"
-                  fill
-                  priority
-                  sizes="224px"
-                  className="object-contain"
-                />
-              </div>
-            </Link>
-          </div>
-
-          {/* Separator line */}
-          <div className="h-px bg-gray-300"></div>
-
-          {/* Navigation Menu */}
-          <nav className="flex justify-center py-4" aria-label="Главная навигация">
-            <div className="flex items-center space-x-8">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-700 hover:text-lavender font-medium transition-colors text-sm"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </nav>
-        </div>
-      </div>
-
-      {/* Light grey strip - shown on both mobile and desktop */}
-      <div className="h-1 bg-gray-100"></div>
-
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden">
-          <div className="fixed inset-0 z-50">
-            <div className="fixed inset-0 bg-black/25" onClick={() => setMobileMenuOpen(false)} />
-            <div className="fixed top-0 left-0 w-full max-w-xs h-full bg-white shadow-xl overflow-y-auto">
-              {/* Mobile menu header */}
-              <div className="flex items-center justify-between p-4 border-b">
-                <div className="relative w-24 h-12">
+    <>
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled 
+            ? 'bg-white/95 backdrop-blur-xl border-b border-lavender-200 shadow-lg' 
+            : 'bg-white/95 backdrop-blur-xl border-b border-lavender-100'
+        }`}
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="relative z-10"
+            >
+              <Link href="/" className="flex items-center">
+                <div className="relative w-20 h-20">
                   <Image
                     src="/logo.png"
                     alt="KAMIL Jewelry"
                     fill
+                    priority
+                    sizes="80px"
                     className="object-contain"
                   />
                 </div>
-                <button
-                  type="button"
-                  className="p-2 rounded-md text-gray-900 hover:bg-gray-100"
-                  onClick={() => setMobileMenuOpen(false)}
-                  aria-label="Закрыть меню"
+              </Link>
+            </motion.div>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-12">
+              {navItems.map((item, index) => (
+                <motion.div
+                  key={item.name}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-              
-              {/* Mobile menu search */}
-              <div className="px-4 py-3 border-b">
-                <div className="relative">
-                  <input 
-                    type="text" 
-                    placeholder="Поиск..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lavender focus:border-lavender"
-                  />
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                </div>
-              </div>
-              
-              {/* Mobile menu navigation */}
-              <div className="px-4 py-6 space-y-1">
-                {navigation.map((item) => (
                   <Link
-                    key={item.name}
                     href={item.href}
-                    className="flex items-center py-3 px-2 text-gray-900 hover:text-lavender hover:bg-lavender-light/10 rounded-lg font-medium transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
+                    className="relative text-gray-700 hover:text-purple-600 font-medium transition-colors duration-300 py-2"
                   >
-                    {item.icon && <item.icon className="w-5 h-5 mr-3" />}
                     {item.name}
+                    <motion.div
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-lavender-500 origin-left"
+                      initial={{ scaleX: 0 }}
+                      whileHover={{ scaleX: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
                   </Link>
-                ))}
-                
-                {/* Additional mobile menu items */}
-                <div className="pt-4 mt-4 border-t">
-                  <Link
-                    href="/account"
-                    className="flex items-center py-3 px-2 text-gray-900 hover:text-lavender hover:bg-lavender-light/10 rounded-lg font-medium transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <User className="w-5 h-5 mr-3" />
-                    МОЙ АККАУНТ
-                  </Link>
-                  <Link
-                    href="/wishlist"
-                    className="flex items-center py-3 px-2 text-gray-900 hover:text-lavender hover:bg-lavender-light/10 rounded-lg font-medium transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Heart className="w-5 h-5 mr-3" />
-                    ИЗБРАННОЕ
-                  </Link>
-                </div>
-                
-                {/* Contact info */}
-                <div className="pt-4 mt-4 border-t">
-                  <p className="text-sm text-gray-500 mb-2">Связаться с нами:</p>
-                  <p className="text-sm font-medium">+7 705 129 35 00</p>
-                  <p className="text-sm text-gray-600 mt-1">kamil_jewelry@mail.ru</p>
-                </div>
-              </div>
+                </motion.div>
+              ))}
+            </nav>
+
+            {/* Right Side Actions */}
+            <div className="flex items-center space-x-4">
+              {/* Search */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="p-2 text-gray-600 hover:text-lavender-600 transition-colors duration-300"
+              >
+                <Search className="w-5 h-5" />
+              </motion.button>
+
+              {/* Wishlist */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="p-2 text-gray-600 hover:text-purple-600 transition-colors duration-300"
+              >
+                <Heart className="w-5 h-5" />
+              </motion.button>
+
+              {/* Cart */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="relative p-2 text-gray-600 hover:text-purple-600 transition-colors duration-300"
+              >
+                <ShoppingBag className="w-5 h-5" />
+                <motion.div
+                  className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white text-xs font-bold"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  3
+                </motion.div>
+              </motion.button>
+
+              {/* User */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="p-2 text-gray-600 hover:text-purple-600 transition-colors duration-300"
+              >
+                <User className="w-5 h-5" />
+              </motion.button>
+
+              {/* Mobile Menu Button */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="lg:hidden p-2 text-gray-600 hover:text-purple-600 transition-colors duration-300"
+              >
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </motion.button>
             </div>
           </div>
         </div>
-      )}
-    </header>
+
+        {/* Search Bar */}
+        <AnimatePresence>
+          {isSearchOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="bg-white/95 backdrop-blur-xl border-t border-purple-200/30"
+            >
+              <div className="container mx-auto px-4 py-4">
+                <div className="relative max-w-2xl mx-auto">
+                  <input
+                    type="text"
+                    placeholder="Поиск украшений..."
+                    className="w-full px-6 py-4 pl-14 bg-gray-50 border border-purple-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+                  />
+                  <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            className="fixed inset-0 z-40 lg:hidden"
+          >
+            <div className="absolute inset-0 bg-black/50" onClick={() => setIsMenuOpen(false)} />
+            <div className="absolute right-0 top-0 bottom-0 w-80 bg-white shadow-2xl">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900">Меню</h2>
+                  <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className="p-2 text-gray-600 hover:text-purple-600 transition-colors duration-300"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+                
+                <nav className="space-y-4">
+                  {navItems.map((item, index) => (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, x: 50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex items-center px-4 py-3 text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300"
+                      >
+                        <span className="font-medium">{item.name}</span>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </nav>
+
+                <div className="mt-8 pt-8 border-t border-gray-200">
+                  <div className="grid grid-cols-2 gap-4">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-medium transition-all duration-300"
+                    >
+                      <User className="w-4 h-4" />
+                      Войти
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-purple-600 text-purple-600 rounded-xl font-medium hover:bg-purple-600 hover:text-white transition-all duration-300"
+                    >
+                      <ShoppingBag className="w-4 h-4" />
+                      Корзина
+                    </motion.button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Spacer for fixed header */}
+      <div className="h-20" />
+    </>
   )
 }

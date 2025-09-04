@@ -1,106 +1,125 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { contentApi, productApi, categoryApi, type HomepageData, type Category, type Product } from '@/lib/api'
-import { CatalogHero } from '@/components/sections/CatalogHero'
+import { contentApi, categoryApi, productApi } from '@/lib/api'
+import { motion } from 'framer-motion'
 import { FeaturedProducts } from '@/components/sections/FeaturedProducts'
 import { Categories } from '@/components/sections/Categories'
 import { AboutSection } from '@/components/sections/AboutSection'
 import { ContactSection } from '@/components/sections/ContactSection'
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
 import { BannerSection } from '@/components/sections/BannerSection'
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 
 export function HomePage() {
-  // Получаем данные для главной страницы
-  const { data: homepageData, isLoading: homepageLoading } = useQuery<HomepageData>({
-    queryKey: ['homepage-data'],
-    queryFn: async () => {
-      const response = await contentApi.getHomepageData()
-      return response.data
-    },
-    retry: 2,
-    staleTime: 5 * 60 * 1000, // 5 минут
+  const { data: homepageData, isLoading: homepageLoading } = useQuery({
+    queryKey: ['homepage'],
+    queryFn: contentApi.getHomepageData,
+    staleTime: 5 * 60 * 1000,
   })
 
-  // Получаем рекомендуемые продукты
-  const { data: featuredProducts, isLoading: productsLoading } = useQuery<Product[]>({
-    queryKey: ['featured-products'],
-    queryFn: async () => {
-      try {
-        const response = await productApi.getFeatured()
-        return response.data
-      } catch (error) {
-        console.error('Error fetching featured products:', error)
-        return []
-      }
-    },
-    retry: 2,
-    staleTime: 5 * 60 * 1000, // 5 минут
-  })
-
-  // Получаем категории
-  const { data: categories, isLoading: categoriesLoading } = useQuery<Category[]>({
+  const { data: categories, isLoading: categoriesLoading } = useQuery({
     queryKey: ['categories'],
-    queryFn: async () => {
-      try {
-        const response = await categoryApi.getAll()
-        return response.data.results || []
-      } catch (error) {
-        console.error('Error fetching categories:', error)
-        return []
-      }
-    },
-    retry: 2,
-    staleTime: 5 * 60 * 1000, // 5 минут
+    queryFn: categoryApi.getAll,
+    staleTime: 10 * 60 * 1000,
   })
 
-  if (homepageLoading) {
+  const { data: featuredProducts, isLoading: productsLoading } = useQuery({
+    queryKey: ['featured-products'],
+    queryFn: productApi.getFeatured,
+    staleTime: 5 * 60 * 1000,
+  })
+
+  if (homepageLoading || categoriesLoading || productsLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <LoadingSpinner />
       </div>
     )
   }
 
   return (
-    <>
-      {/* Главный баннер/герой с каталогом */}
-      {/* <CatalogHero 
-        categories={categories}
-        isLoading={categoriesLoading}
-      /> */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, 100, 0],
+            y: [0, -100, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, -100, 0],
+            y: [0, 100, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      </div>
 
-    <Categories 
-        categories={categories}
-        isLoading={categoriesLoading}
-      />
+      {/* Content */}
+      <div className="relative z-10">
+        {/* Categories Section */}
+        <div id="categories">
+          <Categories 
+            categories={categories?.data?.results}
+            isLoading={categoriesLoading}
+          />
+        </div>
 
-      {/* Промо баннеры */}
-      {homepageData?.promo_banners && Array.isArray(homepageData.promo_banners) && homepageData.promo_banners.length > 0 && (
-        <BannerSection banners={homepageData.promo_banners} />
-      )}
 
-      {/* Категории */}
 
-      {/* Рекомендуемые продукты */}
-      <FeaturedProducts 
-        products={featuredProducts}
-        isLoading={productsLoading}
-      />
+        {/* Featured Products Section */}
+        <div id="products">
+          <FeaturedProducts 
+            products={featuredProducts?.data}
+            isLoading={productsLoading}
+          />
+        </div>
 
-      {/* Отзывы клиентов */}
-      {homepageData?.testimonials && Array.isArray(homepageData.testimonials) && homepageData.testimonials.length > 0 && (
-        <TestimonialsSection testimonials={homepageData.testimonials} />
-      )}
+        {/* About Section */}
+        <div id="about">
+          <AboutSection />
+        </div>
 
-      {/* О компании */}
-      <AboutSection settings={homepageData?.settings} />
+        {/* Testimonials Section */}
+        <TestimonialsSection 
+          testimonials={homepageData?.data?.testimonials || []}
+        />
 
-      {/* Контакты */}
-      <ContactSection 
-        settings={homepageData?.settings}
-        faqs={homepageData?.faqs && Array.isArray(homepageData.faqs) ? homepageData.faqs : []}
-      />
-    </>
+        {/* Contact Section */}
+        <div id="contact">
+          <ContactSection />
+        </div>
+
+        {/* Banner Section */}
+        <BannerSection banners={[]} />
+      </div>
+
+
+    </div>
   )
 }

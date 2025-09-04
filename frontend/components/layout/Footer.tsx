@@ -1,170 +1,269 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { Phone, Mail, MapPin, Instagram, MessageCircle } from 'lucide-react'
+'use client'
 
-const footerLinks = {
-  catalog: [
-    { name: 'Ручная работа', href: '/catalog/ruchnaya-rabota' },
-    { name: 'Бижутерия', href: '/catalog/bijouteriya' },
-    { name: 'Серебро', href: '/catalog/serebro' },
-  ],
-  company: [
-    { name: 'О компании', href: '/about' },
-    { name: 'Доставка', href: '/delivery' },
-    { name: 'Контакты', href: '/contacts' },
-  ]
-}
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { 
+  Instagram, 
+  Facebook, 
+  Twitter, 
+  Mail, 
+  Phone, 
+  MapPin, 
+  Heart, 
+  Sparkles,
+  ArrowUp,
+  Crown,
+  Gem,
+  Shield
+} from 'lucide-react'
 
 export function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const features = [
+    { icon: Crown, title: 'Премиум качество', desc: 'Лучшие материалы' },
+    { icon: Gem, title: 'Уникальный дизайн', desc: 'Авторские работы' },
+    { icon: Shield, title: 'Гарантия подлинности', desc: 'Сертифицированные камни' },
+  ]
+
+  const quickLinks = [
+    { name: 'О нас', href: '/about' },
+    { name: 'Каталог', href: '/catalog' },
+    { name: 'Блог', href: '/blog' },
+    { name: 'Доставка', href: '/delivery' },
+    { name: 'Возврат', href: '/returns' },
+    { name: 'Контакты', href: '/contacts' },
+  ]
+
+  const categories = [
+    { name: 'Кольца', href: '/catalog/rings' },
+    { name: 'Серьги', href: '/catalog/earrings' },
+    { name: 'Кулоны', href: '/catalog/necklaces' },
+    { name: 'Браслеты', href: '/catalog/bracelets' },
+    { name: 'Колье', href: '/catalog/chokers' },
+    { name: 'Комплекты', href: '/catalog/sets' },
+  ]
+
+  const socialLinks = [
+    { icon: Instagram, href: '#', label: 'Instagram' },
+    { icon: Facebook, href: '#', label: 'Facebook' },
+    { icon: Twitter, href: '#', label: 'Twitter' },
+  ]
+
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="container section-padding">
-        {/* Centered Logo Section */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="relative w-20 h-20">
-              <Image
-                src="/logo.png"
-                alt="KAMIL Jewelry"
-                fill
-                sizes="80px"
-                className="object-contain"
-              />
-            </div>
-          </div>
-          <p className="text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto">
-            Бутик-ателье украшений для женщин с характером и стилем. 
-            Здесь вы найдете не просто бижутерию, а тщательно отобранные модные изделия.
-          </p>
-          <p className="text-lg text-gray-400 mt-4">
-            <strong>KAMIL Jewelry</strong> — твой стиль, твоя история.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Catalog */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Каталог</h3>
-            <ul className="space-y-2">
-              {footerLinks.catalog.map((link) => (
-                <li key={link.name}>
-                  <Link 
-                    href={link.href} 
-                    className="text-gray-300 hover:text-white transition-colors text-sm"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Компания</h3>
-            <ul className="space-y-2">
-              {footerLinks.company.map((link) => (
-                <li key={link.name}>
-                  <Link 
-                    href={link.href} 
-                    className="text-gray-300 hover:text-white transition-colors text-sm"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contacts */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Наши контакты</h3>
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-4 h-4 text-lavender mt-1 flex-shrink-0" />
-                <div className="text-sm text-gray-300">
-                  <p>Казахстан, г. Астана</p>
-                  <p>Проспект Абая, 48</p>
-                  <p>ТЦ &ldquo;ЖАННУР&rdquo;, 1 этаж</p>
-                  <p className="text-xs text-gray-400 mt-1">Байконыр район, Z00P4K7</p>
-                  <a 
-                    href="https://2gis.kz/astana/geo/70000001100066806" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-xs text-lavender hover:text-lavender-light transition-colors mt-1 inline-block"
-                  >
-                  Посмотреть в 2GIS
-                  </a>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-3">
-                <Phone className="w-4 h-4 text-lavender" />
-                <a 
-                  href="tel:+77051293500" 
-                  className="text-sm text-gray-300 hover:text-white transition-colors"
-                >
-                  +7 705 129 35 00
-                </a>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-lavender mt-1 flex-shrink-0">
-                  <rect width="20" height="14" x="2" y="5" rx="2" />
-                  <path d="M2 10h20" />
-                </svg>
-                <div className="text-sm text-gray-300">
-                  <p>Режим работы:</p>
-                  <p>Ежедневно с 10:00 до 22:00</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-3">
-                <Mail className="w-4 h-4 text-lavender" />
-                <a 
-                  href="mailto:kamil_jewelry@mail.ru" 
-                  className="text-sm text-gray-300 hover:text-white transition-colors"
-                >
-                  kamil_jewelry@mail.ru
-                </a>
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div className="flex space-x-4 pt-4">
-              <a 
-                href="https://wa.me/77051293500" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-green-600 hover:bg-green-700 rounded-full flex items-center justify-center transition-colors"
-                aria-label="WhatsApp"
-              >
-                <MessageCircle className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://instagram.com/kamil_jewelry" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-pink-600 hover:bg-pink-700 rounded-full flex items-center justify-center transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-gray-800 mt-12 pt-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-            <p className="text-sm text-gray-400">
-              © 2024 KAMIL Jewelry. Все права защищены.
-            </p>
-            <p className="text-xs text-gray-500">
-              Доставка по Казахстану и за рубеж
-            </p>
-          </div>
+    <footer className="relative bg-slate-900 text-white overflow-hidden">
+      {/* Original Background Pattern */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-lavender-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-lavender-400/10 rounded-full blur-3xl" />
+        
+        {/* Original Geometric Pattern */}
+        <div className="absolute inset-0 opacity-15">
+          <svg className="w-full h-full" viewBox="0 0 100% 100%" preserveAspectRatio="none" fill="none">
+            <path d="M0 0 L100% 100% M100% 0 L0 100%" stroke="#8673bf" strokeWidth="1" opacity="0.1"/>
+            <path d="M50% 0 L50% 100% M0 50% L100% 50%" stroke="#b8acd9" strokeWidth="1" opacity="0.1"/>
+            <path d="M25% 0 L75% 100% M75% 0 L25% 100%" stroke="#8673bf" strokeWidth="1" opacity="0.08"/>
+            <circle cx="20%" cy="30%" r="2" fill="#8673bf" opacity="0.2"/>
+            <circle cx="80%" cy="70%" r="2" fill="#b8acd9" opacity="0.2"/>
+            <circle cx="60%" cy="20%" r="1.5" fill="#8673bf" opacity="0.15"/>
+            <circle cx="40%" cy="80%" r="1.5" fill="#b8acd9" opacity="0.15"/>
+          </svg>
         </div>
       </div>
+
+      <div className="relative z-10">
+        {/* Main Footer Content */}
+        <div className="container mx-auto px-4 py-20">
+          {/* Main Footer Grid */}
+          <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12 mb-16">
+            {/* Company Info */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="lg:col-span-1"
+            >
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-12 h-12 bg-lavender-600 rounded-xl flex items-center justify-center">
+                  <span className="text-white font-black text-xl">K</span>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    KAMIL
+                  </h3>
+                  <p className="text-sm text-white/60">Jewelry</p>
+                </div>
+              </div>
+              
+              <p className="text-white/80 mb-6 leading-relaxed">
+                Создаем украшения, которые рассказывают вашу историю. Каждое изделие - это произведение искусства, созданное с любовью и вниманием к деталям.
+              </p>
+
+              {/* Contact Info */}
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3 text-white/70 hover:text-purple-300 transition-colors duration-300">
+                  <Phone className="w-4 h-4" />
+                  <span>+7 705 129 35 00</span>
+                </div>
+                <div className="flex items-center space-x-3 text-white/70 hover:text-purple-300 transition-colors duration-300">
+                  <Mail className="w-4 h-4" />
+                  <span>kamil_jewelry@mail.ru</span>
+                </div>
+                <div className="flex items-center space-x-3 text-white/70 hover:text-purple-300 transition-colors duration-300">
+                  <MapPin className="w-4 h-4" />
+                  <span>Актау, Казахстан</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Quick Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <h4 className="text-lg font-bold mb-6 text-purple-200">Быстрые ссылки</h4>
+              <ul className="space-y-3">
+                {quickLinks.map((link, index) => (
+                  <motion.li
+                    key={link.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
+                  >
+                    <Link
+                      href={link.href}
+                      className="text-white/70 hover:text-purple-300 transition-colors duration-300 flex items-center group"
+                    >
+                      <Sparkles className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                      {link.name}
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Categories */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h4 className="text-lg font-bold mb-6 text-purple-200">Категории</h4>
+              <ul className="space-y-3">
+                {categories.map((category, index) => (
+                  <motion.li
+                    key={category.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
+                  >
+                    <Link
+                      href={category.href}
+                      className="text-white/70 hover:text-purple-300 transition-colors duration-300 flex items-center group"
+                    >
+                      <Sparkles className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                      {category.name}
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Newsletter */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <h4 className="text-lg font-bold mb-6 text-lavender-200">Подписка</h4>
+              <p className="text-white/70 mb-6">
+                Получайте первыми информацию о новых коллекциях и эксклюзивных предложениях.
+              </p>
+              
+              <div className="space-y-4">
+                <div className="relative">
+                  <input
+                    type="email"
+                    placeholder="Ваш email"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-lavender-500 focus:border-transparent transition-all duration-300"
+                  />
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 px-4 py-2 bg-lavender-600 text-white rounded-lg text-sm font-medium hover:bg-lavender-700 transition-all duration-300"
+                  >
+                    Подписаться
+                  </motion.button>
+                </div>
+
+                {/* Social Links */}
+                <div className="flex space-x-4">
+                  {socialLinks.map((social, index) => (
+                    <motion.a
+                      key={social.label}
+                      href={social.href}
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      className="w-10 h-10 bg-white/10 hover:bg-lavender-600 rounded-xl flex items-center justify-center transition-all duration-300"
+                    >
+                      <social.icon className="w-5 h-5" />
+                    </motion.a>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Bottom Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="pt-8 border-t border-white/10"
+          >
+            <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+              <div className="flex items-center space-x-2 text-white/60">
+                <span>© 2024 KAMIL Jewelry. Все права защищены.</span>
+                <Heart className="w-4 h-4 text-pink-400" />
+              </div>
+              
+              <div className="flex items-center space-x-6 text-sm text-white/60">
+                <Link href="/privacy" className="hover:text-lavender-300 transition-colors duration-300">
+                  Политика конфиденциальности
+                </Link>
+                <Link href="/terms" className="hover:text-lavender-300 transition-colors duration-300">
+                  Условия использования
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Scroll to Top Button */}
+      <motion.button
+        onClick={scrollToTop}
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.1, y: -5 }}
+        whileTap={{ scale: 0.9 }}
+        className="fixed bottom-8 right-8 z-50 w-14 h-14 bg-lavender-600 text-white rounded-full shadow-2xl hover:shadow-lavender-500/25 transition-all duration-300 flex items-center justify-center"
+      >
+        <ArrowUp className="w-6 h-6" />
+      </motion.button>
     </footer>
   )
 }
