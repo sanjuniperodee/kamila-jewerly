@@ -35,21 +35,39 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    },
   ]
 
-  // Категории товаров
+  // Категории товаров (обновленные)
   const categories = [
     'ruchnaya-rabota',
     'bijouteriya', 
-    'serebro'
+    'serebro',
+    'zoloto',
+    'podarochnye-nabory'
   ]
   
   const categoryPages = categories.map(category => ({
     url: `${baseUrl}/catalog/${category}`,
     lastModified: new Date(),
     changeFrequency: 'daily' as const,
-    priority: 0.8,
+      priority: 0.8,
   }))
 
-  return [...staticPages, ...categoryPages]
+  // Примеры страниц товаров (для демонстрации структуры)
+  const productPages = [
+    {
+      url: `${baseUrl}/product/example-product`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    }
+  ]
+
+  return [...staticPages, ...categoryPages, ...productPages]
 }

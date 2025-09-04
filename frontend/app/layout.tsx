@@ -39,7 +39,6 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL('https://kamiljewelry.kz'),
   alternates: {
-    canonical: '/',
     languages: {
       'ru-KZ': '/',
       'kk-KZ': '/kk',
