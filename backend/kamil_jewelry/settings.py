@@ -138,6 +138,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "http://127.0.0.1:3001",
     "https://kamila-jewerly-h295uavu1-bekkhans-projects.vercel.app/",
+    "https://kamila-jewerly-bz07fap8g-bekkhans-projects.vercel.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
